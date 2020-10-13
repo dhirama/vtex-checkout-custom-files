@@ -9,17 +9,17 @@ https://pocvtex.myvtex.com/checkout/cart/add/?sku=2000729&qty=1&seller=1&sc=3
 Events: 
 ```
 {
-	'setup',
-	'showCardErrors',
-	'resetCardFormData',
-	'updateAddressId',
-	'isCardValid',
-	'getCardLastDigits'
+  'setup',
+  'showCardErrors',
+  'resetCardFormData',
+  'updateAddressId',
+  'isCardValid',
+  'getCardLastDigits'
 }
 ```
 Listeners:
 ```
 {
-	'paymentSystem'
+  'paymentSystem'
 }
 ```

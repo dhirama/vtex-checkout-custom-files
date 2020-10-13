@@ -1,6 +1,10 @@
 # vtex-checkout-custom-files
 Sample custom files for VTEX Checkout alternative
 
+### Simplified Flow
+![store-theme-default](https://github.com/dhirama/vtex-checkout-custom-files/raw/main/placeorder_flow.png)
+> **Note:** Each step has its own errors that should be handled properly.
+
 ### Example URL
 https://pocvtex.myvtex.com/checkout/cart/add/?sku=2000729&qty=1&seller=1&sc=3
 

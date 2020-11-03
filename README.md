@@ -29,8 +29,8 @@ Listeners:
 ```
 
 ### Interface Samples (VTEX IO Checkout)
-**Project Reference:**
-https://github.com/vtex-apps/checkout
+**Project Reference:**<br>
+https://github.com/vtex-apps/checkout<br>
 https://github.com/vtex-apps/checkout-payment/blob/master/react/CreditCard.tsx
 
 ![PCI Payment Container - Option w/ stored card](https://github.com/dhirama/vtex-checkout-custom-files/raw/main/saved_card.png)

@@ -31,8 +31,16 @@
   vertical-align: middle;
 }
 
-#root > .pa5.bg-muted-5 {
+#root > .pa5.bg-muted-5, #root > .fw6.pb5.ph5 {
   padding: 1rem !important;    
+}
+
+#root > * > .flex.items-center.mt6 {
+  margin-top: 1rem !important;   
+}
+
+#root > * > * > .normal.c-muted-1.ml7.mw4 {
+  margin-left: 1rem !important;
 }
 
 

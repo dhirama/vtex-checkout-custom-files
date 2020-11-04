@@ -28,6 +28,12 @@ Listeners:
 }
 ```
 
+### Using stored cards
+Three steps:
+- Get all available cards from paymentData within the orderForm (also from the user profile).
+- Use the `cardType=saved` parameter with the iframe.
+- Fill the payment data sent to the iframe with the ID `accountId` from the desired card.
+
 ### Interface Samples (VTEX IO Checkout)
 **Project Reference:**<br>
 https://github.com/vtex-apps/checkout<br>

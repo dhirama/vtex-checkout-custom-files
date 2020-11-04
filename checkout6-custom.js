@@ -39,18 +39,40 @@ function sendCreditCardOptionPaymentData(ev) {
       paymentSystem: "2",
       installments: 1,
       referenceValue: vtexOrderForm.value,
-      tokenId: null,
       value: vtexOrderForm.value
     }]
     vtexjs.checkout.sendAttachment("paymentData",pd).done(()=>{
       $('.payment-opt').removeClass('active') 
       $(target).addClass('active')
+      insertPaymentIframe('NEWCARD')
+      $('#creditcard-container').show()
+    })
+  })
+}
+
+function sendSavedCreditCardOptionPaymentData(ev, savedCard) {
+  var target = ev.target;
+  //TODO: Should handle creditcard options (installments and values) in another listnener
+  window.vtexjs.checkout.getOrderForm().done(function(vtexOrderForm){
+    var pd = vtexOrderForm.paymentData
+    pd.payments = [{
+      paymentSystem: savedCard.paymentSystem,
+      installments: 1,
+      accountId: savedCard.accountId,
+      referenceValue: vtexOrderForm.value,
+      value: vtexOrderForm.value
+    }]
+    vtexjs.checkout.sendAttachment("paymentData",pd).done(()=>{
+      $('.payment-opt').removeClass('active') 
+      $(target).addClass('active')
+      insertPaymentIframe('SAVEDCARD')
       $('#creditcard-container').show()
     })
   })
 }
       
 async function sendPaymentData(transactionData) {
+  //TODO: Must create an array of Payments if there is more than one - removing forced index 0.
   var allPayments = [{
       "transaction": {
         "id": transactionData.id,
@@ -60,6 +82,8 @@ async function sendPaymentData(transactionData) {
       "installments": transactionData.paymentData.payments[0].installments,
       "value": transactionData.paymentData.payments[0].value,
       "referenceValue": transactionData.paymentData.payments[0].referenceValue,
+      "accountId": transactionData.paymentData.payments[0].accountId,
+      "bin": transactionData.paymentData.payments[0].bin
   }]
 
   var receiverUri = transactionData.receiverUri
@@ -137,6 +161,10 @@ function placeOrder(){
 	})})   
 }
 
+function getSavedCards(vtexOrderForm) {
+  return vtexOrderForm.paymentData.availableAccounts
+}
+    
 function initUserInterface(vtexOrderForm) {
   var payments_container = $("<div/>", {
     class: 'pull-right payment-data span12',
@@ -164,6 +192,23 @@ function initUserInterface(vtexOrderForm) {
   button_creditcard_opt.on('click', ev=>sendCreditCardOptionPaymentData(ev))
   payments_container.append(button_creditcard_opt)
   
+  //Handle saved cards 
+  //TODO: Only perform this request if there is an identified user
+  var savedCards = []
+  savedCards = getSavedCards(vtexOrderForm)
+
+  if(savedCards.length != 0){
+    //TODO: For each savedCard in array...
+    var savedCard_text = savedCards[0].paymentSystemName + " final " + savedCards[0].cardNumber.slice(-4)
+    var button_savedcreditcard_opt = $("<button/>", {
+      class: 'btn btn-success btn-large payment-opt',
+      text: "Pagar com " + savedCard_text,
+      id: 'payments-v2-btn-savedcreditcard'
+    })
+    button_savedcreditcard_opt.on('click', ev=>sendSavedCreditCardOptionPaymentData(ev, savedCards[0]))
+    payments_container.append(button_savedcreditcard_opt)
+  }
+
   var creditcard_container = $("<div/>", {
     class: 'pull-right payment-data span12',
     id: 'creditcard-container'
@@ -199,19 +244,22 @@ function setupPaymentIframe() {
   })
 }
 
-function insertPaymentIframe() {
+function insertPaymentIframe(type) {
   const IFRAME_APP_VERSION = '0.7.1'
   const iframeURLProd = "https://io.vtexpayments.com.br/card-form-ui/" + IFRAME_APP_VERSION + "/index.html"
   
+  var iframe_src_opt = "?locale=pt-BR&cardType=new"
+  if(type != 'NEWCARD') iframe_src_opt = "?locale=pt-BR&cardType=saved"
+
   var paymentIframe = $("<iframe/>", {
     id: "chk-card-form",
     class: "some-className",
     scrolling: "no",
     frameBorder: "0",
     onload: setupPaymentIframe(),
-    src: iframeURLProd + "?locale=pt-BR&cardType=new"
+    src: iframeURLProd + iframe_src_opt
   })
-  $('#creditcard-container').append(paymentIframe)
+  $('#creditcard-container').empty().append(paymentIframe)
 }
 
 
@@ -229,7 +277,7 @@ function init(){
   window.vtexjs.checkout.getOrderForm().done(function(vtexOrderForm){
     //initProductList(vtexOrderForm)
     initUserInterface(vtexOrderForm)
-  	insertPaymentIframe()
+  	//insertPaymentIframe()
     
     //Post-Robot interface init
     createPaymentSystemListener()

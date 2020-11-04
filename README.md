@@ -37,7 +37,9 @@ Three steps:
 ### Interface Samples (VTEX IO Checkout)
 **Project Reference:**<br>
 https://github.com/vtex-apps/checkout<br>
-https://github.com/vtex-apps/checkout-payment/blob/master/react/CreditCard.tsx
+https://github.com/vtex-apps/checkout-payment/blob/master/react/Payment.tsx<br>
+https://github.com/vtex-apps/checkout-payment/blob/master/react/CreditCard.tsx<br>
+https://github.com/vtex-apps/checkout/blob/master/react/PlaceOrder.tsx
 
 ![PCI Payment Container - Option w/ stored card](https://github.com/dhirama/vtex-checkout-custom-files/raw/main/saved_card.png)
 ![PCI Payment Container - Default Form](https://github.com/dhirama/vtex-checkout-custom-files/raw/main/default_form.png)

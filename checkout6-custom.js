@@ -76,7 +76,7 @@ async function sendPaymentData(transactionData) {
   var allPayments = [{
       "transaction": {
         "id": transactionData.id,
-        "merchantName": transactionData.paymentData.payments[0].merchantSellerPayments[0].id
+        "merchantName": transactionData.paymentData.payments[0].merchantSellerPayments[0].merchantName
       },
       "paymentSystem": transactionData.paymentData.payments[0].paymentSystem,
       "installments": transactionData.paymentData.payments[0].installments,
